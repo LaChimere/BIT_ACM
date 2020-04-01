@@ -723,6 +723,27 @@ int main()
 >
 > The position of the first character of the last match. If no matches were found, the function returns [string::npos](http://www.cplusplus.com/string::npos).
 
+```c++
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main ()
+{
+    string str("The sixth sick sheik's sixth sheep's sick.");
+    string key("sixth");
+
+    size_t found = str.rfind(key);
+    if (found != string::npos)
+        str.replace(found, key.length(), "seventh");
+    cout << str << '\n';	// 输出 The sixth sick sheik's seventh sheep's sick.
+
+    return 0;
+}
+```
+
+
+
 #### **[`find_first_of()`](http://www.cplusplus.com/reference/string/string/find_first_of/)**
 
 > * *string*
