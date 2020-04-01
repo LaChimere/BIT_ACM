@@ -426,7 +426,7 @@ int main()
 
     `string (string&& str) noexcept;`
 
-### 2.3 \<[成员函数](http://www.cplusplus.com/reference/string/string/)\> (部分)
+### 2.3 [成员函数](http://www.cplusplus.com/reference/string/string/) (部分)
 
 #### **[`append()`](http://www.cplusplus.com/reference/string/string/append/)**
 
@@ -1101,4 +1101,22 @@ int main ()
 > If *n* is smaller than the current string length, the current value is shortened to its first *n* character, removing the characters beyond the *n*th.
 >
 > If *n* is greater than the current string length, the current content is extended by inserting at the end as many characters as needed to reach a size of *n*. If *c* is specified, the new elements are initialized as copies of *c*, otherwise, they are *value-initialized characters* (null characters).
+
+#### **[`substr()`](http://www.cplusplus.com/reference/string/string/substr/)**
+
+> `string substr (size_t pos = 0, size_t len = npos) const;`
+>
+> **Returns a newly constructed string object with its value initialized to a copy of a substring of this object.**
+>
+> The substring is the portion of the object that starts at character position pos and spans len characters (or until the end of the string, whichever comes first).
+
+#### **[`string::swap()`](http://www.cplusplus.com/reference/string/string/swap/)**
+
+> `void swap (string& str);`
+>
+> **Exchanges the content of the container by the content of *str*, which is another string object. Lengths may differ.**
+>
+> After the call to this member function, the value of this object is the value *str* had before the call, and the value of *str* is the value this object had before the call.
+>
+> Notice that a non-member function exists with the same name, [swap](http://www.cplusplus.com/string:swap), overloading that algorithm with an optimization that behaves like this member function.
 
