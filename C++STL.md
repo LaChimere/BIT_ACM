@@ -723,6 +723,8 @@ int main()
 >
 > The position of the first character of the last match. If no matches were found, the function returns [string::npos](http://www.cplusplus.com/string::npos).
 
+若未指定 *pos*, 则从 `*this` 的最后向前, 否则在 `*this` 中从 *pos* 起向前查找 *str* 或 *s*, 若找到则返回其首字符所在位置, 如:
+
 ```c++
 #include <iostream>
 #include <string>
