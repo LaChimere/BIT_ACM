@@ -1120,3 +1120,77 @@ int main ()
 >
 > Notice that a non-member function exists with the same name, [swap](http://www.cplusplus.com/string:swap), overloading that algorithm with an optimization that behaves like this member function.
 
+#### **[`stoi()`](http://www.cplusplus.com/reference/string/stoi/)** (static) (C++ 11)
+
+> `int stoi (const string&  str, size_t* idx = 0, int base = 10);`
+>
+> `int stoi (const wstring& str, size_t* idx = 0, int base = 10);`
+>
+> **Parses *str* interpreting its content as an integral number of the specified *base*, which is returned as an `int` value.**
+>
+> If *idx* is not a null pointer, the function also sets the value of *idx* to the position of the first character in *str* after the number.
+>
+> The function uses [strtol](http://www.cplusplus.com/strtol) (or [wcstol](http://www.cplusplus.com/wcstol)) to perform the conversion (see [strtol](http://www.cplusplus.com/strtol) for more details on the process).
+
+该函数参数中 *idx* 可以取得数字之后的首字符位置, 如:
+
+```c++
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	string str("8888...!!!");
+    size_t p;
+    cout << stoi(str, &p) << endl << str.substr(p) << endl;
+    /*
+     * 输出如下
+     * 8888
+     * ...!!!
+    **/
+    return 0;
+}
+```
+
+
+
+#### **[`to_string()`](http://www.cplusplus.com/reference/string/to_string/)** (static) (C++ 11)
+
+> ```c++
+> string to_string (int val);
+> string to_string (long val);
+> string to_string (long long val);
+> string to_string (unsigned val);
+> string to_string (unsigned long val);
+> string to_string (unsigned long long val);
+> string to_string (float val);
+> string to_string (double val);
+> string to_string (long double val);
+> ```
+>
+> **Returns a string with the representation of *val*.**
+>
+> The format used is the same that [printf](http://www.cplusplus.com/printf) would print for the corresponding type.
+
+### 2.4 非成员函数
+
+#### **[`getline(string)`](http://www.cplusplus.com/reference/string/string/getline/)**
+
+> (1) `istream& getline (istream&  is, string& str, char delim);`
+>
+> ​	 `istream& getline (istream&& is, string& str, char delim);`
+>
+> (2) `istream& getline (istream&  is, string& str);`
+>
+> ​	 `istream& getline (istream&& is, string& str);`
+>
+> **Extracts characters from *is* and stores them into *str* until the delimitation character *delim* is found (or the newline character, `'\n'`, for *(2)*).**
+>
+> The extraction also stops if the end of file is reached in *is* or if some other error occurs during the input operation.
+>
+> If the delimiter is found, it is extracted and discarded (i.e. it is not stored and the next input operation will begin after it).
+>
+> Note that any content in str before the call is replaced by the newly extracted sequence.
+>
+> Each extracted character is appended to the [string](http://www.cplusplus.com/string) as if its member [push_back](http://www.cplusplus.com/string::push_back) was called.
