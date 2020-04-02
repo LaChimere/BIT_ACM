@@ -1702,6 +1702,10 @@ InputIterator find_if (InputIterator first, InputIterator last, UnaryPredicate p
 > The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted range, which is specially efficient for [random-access iterators](http://www.cplusplus.com/RandomAccessIterator).
 >
 > Unlike [upper_bound](http://www.cplusplus.com/upper_bound), the value pointed by the iterator returned by this function may also be equivalent to val, and not only greater.
+>
+> **Return value:**
+>
+> An iterator to the lower bound of *val* in the range. If all the element in the range compare less than *val*, the function returns *last*.
 
 The behavior of this function template is equivalent to:
 
@@ -1711,12 +1715,12 @@ ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last, const 
 {
     ForwardIterator it;
     iterator_traits<ForwardIterator>::difference_type count, step;
-    count = distance(first,last);
+    count = distance(first, last);
     while (count > 0)
     {
-        it = first; step=count/2; advance (it,step);
-        if (*it<val) {
-// or: if (comp(*it,val)), for version (2)
+        it = first; step = count / 2; advance(it, step);
+        if (*it < val) {
+// or: if (comp(*it, val)), for version (2)
             first = ++it;
             count -= step + 1;
         }
@@ -1725,4 +1729,30 @@ ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last, const 
     return first;
 }
 ```
+
+由上代码可看出 `lower_bound()` 函数由二分查找实现, 由该函数返回的迭代器, 结合其他方法可实现一系列灵活的操作, 如:
+
+```c++
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    vector<int> nums{1, 5, 3, 3, 5, 1, 1, 5};
+    sort(nums.begin(), nums.end());	// 1 1 1 3 3 5 5 5
+    auto low = lower_bound(nums.begin(), nums.end(), 3);
+    nums.insert(low, 2);
+    auto up = upper_bound(nums.begin(), nums.end(), 3);
+    nums.insert(up, 4);
+
+    for (const int& num : nums)
+        cout << num << " ";	// 输出 1 1 1 2 3 3 4 5 5 5
+
+    return 0;
+}
+```
+
+
 
