@@ -1683,3 +1683,46 @@ InputIterator find_if (InputIterator first, InputIterator last, UnaryPredicate p
 }
 ```
 
+
+
+#### **[`lower_bound()`](http://www.cplusplus.com/reference/algorithm/lower_bound/)**
+
+> * *default*
+>
+>     `template <class ForwardIterator, class T> ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last, const T& val);`
+>
+> * *custom*
+>
+>     `template <class ForwardIterator, class T, class Compare> ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last, const T& val, Compare comp);`
+>
+> **Returns an iterator pointing to the first element in the range `[first,last)` which does not compare less than *val*.**
+>
+> The elements are compared using `operator<` for the first version, and comp for the second. The elements in the range shall already be [sorted](http://www.cplusplus.com/is_sorted) according to this same criterion (`operator<` or comp), or at least [partitioned](http://www.cplusplus.com/is_partitioned) with respect to val.
+>
+> The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted range, which is specially efficient for [random-access iterators](http://www.cplusplus.com/RandomAccessIterator).
+>
+> Unlike [upper_bound](http://www.cplusplus.com/upper_bound), the value pointed by the iterator returned by this function may also be equivalent to val, and not only greater.
+
+The behavior of this function template is equivalent to:
+
+```c++
+template <class ForwardIterator, class T>
+ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last, const T& val)
+{
+    ForwardIterator it;
+    iterator_traits<ForwardIterator>::difference_type count, step;
+    count = distance(first,last);
+    while (count > 0)
+    {
+        it = first; step=count/2; advance (it,step);
+        if (*it<val) {
+// or: if (comp(*it,val)), for version (2)
+            first = ++it;
+            count -= step + 1;
+        }
+        else count = step;
+    }
+    return first;
+}
+```
+
