@@ -196,13 +196,15 @@ int main()
 
 # C++ STL 概述 (C++ 11)
 
-## 1. \<[vector](http://www.cplusplus.com/reference/vector/)\>
+## 1. Containers
 
-### 1.1 模板
+### 1.1 \<[vector](http://www.cplusplus.com/reference/vector/)\>
+
+#### 1.1.1 模板
 
 `template < class T, class Alloc = allocator<T> > class vector; // generic template`
 
-### 1.2 构造函数
+#### 1.1.2 构造函数
 
 * *default*
 
@@ -234,9 +236,9 @@ int main()
 
     `vector (initializer_list<value_type> il, const allocator_type& alloc = allocator_type());`
 
-### 1.3 [成员函数](http://www.cplusplus.com/reference/vector/vector/)  ( 部分 )
+#### 1.1.3 [成员函数](http://www.cplusplus.com/reference/vector/vector/)  ( 部分 )
 
-#### **[`assign()`](http://www.cplusplus.com/reference/vector/vector/assign/)**
+##### **[`assign()`](http://www.cplusplus.com/reference/vector/vector/assign/)**
 
 >* *range*
 >
@@ -274,7 +276,7 @@ int main()
 
 
 
-#### **[`emplace()`](http://www.cplusplus.com/reference/vector/vector/emplace/)** (C++ 11)
+##### **[`emplace()`](http://www.cplusplus.com/reference/vector/vector/emplace/)** (C++ 11)
 
 > `template <class... Args> iterator emplace (const_iterator position, Args&&... args);`
 >
@@ -300,13 +302,13 @@ int main()
 }
 ```
 
-#### **[`emplace_back()`](http://www.cplusplus.com/reference/vector/vector/emplace_back/)** (C++ 11)
+##### **[`emplace_back()`](http://www.cplusplus.com/reference/vector/vector/emplace_back/)** (C++ 11)
 
 > `template <class... Args> void emplace_back (Args&&... args);`
 >
 > **Inserts a new element at the end of the vector, right after its current last element. This new element is constructed in place using *args* as the arguments for its constructor.**
 
-#### **[`erase()`](http://www.cplusplus.com/reference/vector/vector/erase/)**
+##### **[`erase()`](http://www.cplusplus.com/reference/vector/vector/erase/)**
 
 > `iterator erase (const_iterator position);`
 >
@@ -316,7 +318,7 @@ int main()
 >
 > This effectively reduces the container `size` by the number of elements removed, which are destroyed.
 
-#### **[`insert()`](http://www.cplusplus.com/reference/vector/vector/insert/)**
+##### **[`insert()`](http://www.cplusplus.com/reference/vector/vector/insert/)**
 
 > * *single element*
 >
@@ -340,11 +342,11 @@ int main()
 >
 > **The vector is extended by inserting new elements before the element at the specified *position*, effectively increasing the container `size` by the number of elements inserted.**
 
-#### **[`at()`](http://www.cplusplus.com/reference/vector/vector/at/)** 与 **[`operator[]()`](http://www.cplusplus.com/reference/vector/vector/operator[]/)**
+##### **[`at()`](http://www.cplusplus.com/reference/vector/vector/at/)** 与 **[`operator[]()`](http://www.cplusplus.com/reference/vector/vector/operator[]/)**
 
 发生访问越界时, `at()`会报越界错误, 而使用`[]`不会报错, 可能访问到错误的内容. (详见源码)
 
-#### **[`vector::swap()`](http://www.cplusplus.com/reference/vector/vector/swap/)**
+##### **[`vector::swap()`](http://www.cplusplus.com/reference/vector/vector/swap/)**
 
 > `void swap (vector& x);`
 >
@@ -354,7 +356,7 @@ int main()
 >
 > Notice that a non-member function exists with the same name, [swap](http://www.cplusplus.com/vector:swap), overloading that algorithm with an optimization that behaves like this member function.
 
-#### **[`resize()`](http://www.cplusplus.com/reference/vector/vector/resize/)**
+##### **[`resize()`](http://www.cplusplus.com/reference/vector/vector/resize/)**
 
 > `void resize (size_type n);`
 >
@@ -370,25 +372,27 @@ int main()
 >
 > Notice that this function changes the actual content of the container by inserting or erasing elements from it.
 
-####  **[`shrink_to_fit()`](http://www.cplusplus.com/reference/vector/vector/shrink_to_fit/)**
+#####  **[`shrink_to_fit()`](http://www.cplusplus.com/reference/vector/vector/shrink_to_fit/)**
 
 > `void shrink_to_fit();`
 >
 > **Requests the container to reduce its [capacity](http://www.cplusplus.com/vector::capacity) to fit its `size`.**
 
-#### **[`clear()`](http://www.cplusplus.com/reference/vector/vector/clear/)**
+##### **[`clear()`](http://www.cplusplus.com/reference/vector/vector/clear/)**
 
 > `void clear() noexcept;`
 >
 > **Removes all elements from the vector (which are destroyed), leaving the container with a `size` of `0`.**
 
-## 2. \<[string](http://www.cplusplus.com/reference/string/string/)\>
+## 2. Other
 
-### 2.1 定义
+### 2.1 \<[string](http://www.cplusplus.com/reference/string/string/)\>
+
+#### 2.1.1 定义
 
 `typedef basic_string<char> string;`
 
-### 2.2 构造函数
+#### 2.1.2 构造函数
 
 * *default*
 
@@ -426,9 +430,9 @@ int main()
 
     `string (string&& str) noexcept;`
 
-### 2.3 [成员函数](http://www.cplusplus.com/reference/string/string/) (部分)
+#### 2.1.3 [成员函数](http://www.cplusplus.com/reference/string/string/) (部分)
 
-#### **[`append()`](http://www.cplusplus.com/reference/string/string/append/)**
+##### **[`append()`](http://www.cplusplus.com/reference/string/string/append/)**
 
 > * *string*
 >
@@ -460,7 +464,7 @@ int main()
 >
 > **Extends the string by appending additional characters at the end of its current value**
 
-#### **[`assign()`](http://www.cplusplus.com/reference/string/string/assign/)**
+##### **[`assign()`](http://www.cplusplus.com/reference/string/string/assign/)**
 
 > * *string*
 >
@@ -496,7 +500,7 @@ int main()
 >
 > **Assigns a new value to the string, replacing its current contents.**
 
-#### **[`compare()`](http://www.cplusplus.com/reference/string/string/compare/)**
+##### **[`compare()`](http://www.cplusplus.com/reference/string/string/compare/)**
 
 > * *string*
 >
@@ -524,7 +528,7 @@ int main()
 >
 > This string is compared to a comparing string, which is determined by the other arguments passed to the function.
 
-#### **[`copy()`](http://www.cplusplus.com/reference/string/string/copy/)**
+##### **[`copy()`](http://www.cplusplus.com/reference/string/string/copy/)**
 
 > `size_t copy (char* s, size_t len, size_t pos = 0) const;`
 >
@@ -555,7 +559,7 @@ int main()
 }
 ```
 
-#### **[`c_str()`](http://www.cplusplus.com/reference/string/string/c_str/)**
+##### **[`c_str()`](http://www.cplusplus.com/reference/string/string/c_str/)**
 
 > `const char* c_str() const noexcept;`
 >
@@ -589,7 +593,7 @@ int main()
 }
 ```
 
-#### **[`data()`](http://www.cplusplus.com/reference/string/string/data/)**
+##### **[`data()`](http://www.cplusplus.com/reference/string/string/data/)**
 
 > `const char* data() const noexcept;`
 >
@@ -620,7 +624,7 @@ int main()
 }
 ```
 
-#### **[`erase()`](http://www.cplusplus.com/reference/string/string/erase/)**
+##### **[`erase()`](http://www.cplusplus.com/reference/string/string/erase/)**
 
 > * *sequence*
 >
@@ -669,7 +673,7 @@ int main()
 }
 ```
 
-#### **[`find()`](http://www.cplusplus.com/reference/string/string/find/)**
+##### **[`find()`](http://www.cplusplus.com/reference/string/string/find/)**
 
 > * *string*
 >
@@ -697,7 +701,7 @@ int main()
 >
 > The position of the first character of the first match. If no matches were found, the function returns [string::npos](http://www.cplusplus.com/string::npos).
 
-#### **[`rfind()`](http://www.cplusplus.com/reference/string/string/rfind/)**
+##### **[`rfind()`](http://www.cplusplus.com/reference/string/string/rfind/)**
 
 > * *string*
 >
@@ -746,7 +750,7 @@ int main ()
 
 
 
-#### **[`find_first_of()`](http://www.cplusplus.com/reference/string/string/find_first_of/)**
+##### **[`find_first_of()`](http://www.cplusplus.com/reference/string/string/find_first_of/)**
 
 > * *string*
 >
@@ -798,7 +802,7 @@ int main ()
 
 
 
-#### **[`find_first_not_of()`](http://www.cplusplus.com/reference/string/string/find_first_not_of/)**
+##### **[`find_first_not_of()`](http://www.cplusplus.com/reference/string/string/find_first_not_of/)**
 
 > * *string*
 >
@@ -845,7 +849,7 @@ int main ()
 
 
 
-#### **[`find_last_of()`](http://www.cplusplus.com/reference/string/string/find_last_of/)**
+##### **[`find_last_of()`](http://www.cplusplus.com/reference/string/string/find_last_of/)**
 
 > * *string*
 >
@@ -903,7 +907,7 @@ int main ()
 
 
 
-#### **[`find_last_not_of()`](http://www.cplusplus.com/reference/string/string/find_last_not_of/)**
+##### **[`find_last_not_of()`](http://www.cplusplus.com/reference/string/string/find_last_not_of/)**
 
 > * *string*
 >
@@ -925,7 +929,7 @@ int main ()
 >
 > When *pos* is specified, the search only includes characters at or before position *pos*, ignoring any possible occurrences after *pos*.
 
-#### **[`insert()`](http://www.cplusplus.com/reference/string/string/insert/)**
+##### **[`insert()`](http://www.cplusplus.com/reference/string/string/insert/)**
 
 > * *string*
 >
@@ -1002,7 +1006,7 @@ int main ()
 >     
 >     Member type `iterator` is a [random access iterator](http://www.cplusplus.com/RandomAccessIterator) type that points to characters of the string.
 
-#### **[`operator+=()`](http://www.cplusplus.com/reference/string/string/operator+=/)**
+##### **[`operator+=()`](http://www.cplusplus.com/reference/string/string/operator+=/)**
 
 > * *string*
 >
@@ -1022,7 +1026,7 @@ int main ()
 >
 > **Extends the string by appending additional characters at the end of its current value.**
 
-#### **[`replace()`](http://www.cplusplus.com/reference/string/string/replace/)**
+##### **[`replace()`](http://www.cplusplus.com/reference/string/string/replace/)**
 
 > * *string*
 >
@@ -1090,7 +1094,7 @@ int main ()
 >
 >     Copies each of the characters in *il*, in the same order.
 
-#### **[`resize()`](http://www.cplusplus.com/reference/string/string/resize/)**
+##### **[`resize()`](http://www.cplusplus.com/reference/string/string/resize/)**
 
 > `void resize (size_t n);`
 >
@@ -1102,7 +1106,7 @@ int main ()
 >
 > If *n* is greater than the current string length, the current content is extended by inserting at the end as many characters as needed to reach a size of *n*. If *c* is specified, the new elements are initialized as copies of *c*, otherwise, they are *value-initialized characters* (null characters).
 
-#### **[`substr()`](http://www.cplusplus.com/reference/string/string/substr/)**
+##### **[`substr()`](http://www.cplusplus.com/reference/string/string/substr/)**
 
 > `string substr (size_t pos = 0, size_t len = npos) const;`
 >
@@ -1110,7 +1114,7 @@ int main ()
 >
 > The substring is the portion of the object that starts at character position pos and spans len characters (or until the end of the string, whichever comes first).
 
-#### **[`string::swap()`](http://www.cplusplus.com/reference/string/string/swap/)**
+##### **[`string::swap()`](http://www.cplusplus.com/reference/string/string/swap/)**
 
 > `void swap (string& str);`
 >
@@ -1120,7 +1124,7 @@ int main ()
 >
 > Notice that a non-member function exists with the same name, [swap](http://www.cplusplus.com/string:swap), overloading that algorithm with an optimization that behaves like this member function.
 
-#### **[`stoi()`](http://www.cplusplus.com/reference/string/stoi/)** (static) (C++ 11)
+##### **[`stoi()`](http://www.cplusplus.com/reference/string/stoi/)** (static) (C++ 11)
 
 > `int stoi (const string&  str, size_t* idx = 0, int base = 10);`
 >
@@ -1155,7 +1159,7 @@ int main()
 
 
 
-#### **[`to_string()`](http://www.cplusplus.com/reference/string/to_string/)** (static) (C++ 11)
+##### **[`to_string()`](http://www.cplusplus.com/reference/string/to_string/)** (static) (C++ 11)
 
 > ```c++
 > string to_string (int val);
@@ -1173,9 +1177,9 @@ int main()
 >
 > The format used is the same that [printf](http://www.cplusplus.com/printf) would print for the corresponding type.
 
-### 2.4 非成员函数
+#### 2.1.4 非成员函数
 
-#### **[`getline(string)`](http://www.cplusplus.com/reference/string/string/getline/)**
+##### **[`getline(string)`](http://www.cplusplus.com/reference/string/string/getline/)**
 
 > (1) `istream& getline (istream&  is, string& str, char delim);`
 >
