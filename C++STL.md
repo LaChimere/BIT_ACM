@@ -1,6 +1,6 @@
 # C语言标准库函数回顾
 
-## 1 \<[cstring](http://www.cplusplus.com/reference/cstring/)\>
+## 1. \<[cstring](http://www.cplusplus.com/reference/cstring/)\>
 
 ### **`strlen()`**
 
@@ -83,9 +83,9 @@ memset(arr, -1, sizeof(arr));	// arr中每个元素被设为 0xffffffff
 >
 > Notice that, unlike `strcmp`, the function does not stop comparing after finding a null character.
 
-## 2 \<[cmath](http://www.cplusplus.com/reference/cmath/)\> 
+## 2. \<[cmath](http://www.cplusplus.com/reference/cmath/)\> 
 
-## 3 \<[cstdlib](http://www.cplusplus.com/reference/cstdlib/)\>
+## 3. \<[cstdlib](http://www.cplusplus.com/reference/cstdlib/)\>
 
 ### **`qsort()`**
 
@@ -151,7 +151,7 @@ int main ()
 
 ### **[`free()`](http://www.cplusplus.com/reference/cstdlib/free/)**
 
-## 4 \<[ctime](http://www.cplusplus.com/reference/ctime/)\>
+## 4. \<[ctime](http://www.cplusplus.com/reference/ctime/)\>
 
 ### **`time()`**
 
@@ -192,7 +192,7 @@ int main()
 }
 ```
 
-## 5 \<[cctype](http://www.cplusplus.com/reference/cctype/)\>
+## 5. \<[cctype](http://www.cplusplus.com/reference/cctype/)\>
 
 # C++ STL 概述 (C++ 11)
 
@@ -1457,6 +1457,229 @@ int main ()
         cout << *it << " ";		// 输出 4 5 6 7 8 1 2 3
 
     return 0;
+}
+```
+
+
+
+#### **[`rotate_copy()`](http://www.cplusplus.com/reference/algorithm/rotate_copy/)** (详见链接)
+
+#### **[`unique()`](http://www.cplusplus.com/reference/algorithm/unique/)**
+
+> * *equality*
+>
+>     `template <class ForwardIterator> ForwardIterator unique (ForwardIterator first, ForwardIterator last);`
+>
+> * *predicate*
+>
+>     `template <class ForwardIterator, class BinaryPredicate> ForwardIterator unique (ForwardIterator first, ForwardIterator last, BinaryPredicate pred);`
+>
+> **Removes all but the first element from every consecutive group of equivalent elements in the range `[first,last)`.**
+>
+> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot alter the size of an array or a container): The removal is done by replacing the duplicate elements by the next element that is not a duplicate, and signaling the new size of the shortened range by returning an iterator to the element that should be considered its new *past-the-end* element.
+>
+> The relative order of the elements not removed is preserved, while the elements between the returned iterator and last are left in a valid but unspecified state.
+>
+> The function uses `operator==` to compare the pairs of elements (or pred, in version *(2)*).
+>
+> **Return value:**
+>
+> An iterator to the element that follows the last element not removed. The range between first and this iterator includes all the elements in the sequence that were not considered duplicates.
+
+The behavior of this function template is equivalent to:
+
+```c++
+template <class ForwardIterator>
+ForwardIterator unique (ForwardIterator first, ForwardIterator last)
+{
+    if (first == last) return last;
+
+    ForwardIterator result = first;
+    while (++first != last)
+    {
+        if (!(*result == *first))
+// or: if (!pred(*result, *first)) for version (2)
+            *(++result) = *first;
+    }
+    return ++result;
+}
+```
+
+由上易看出, 若欲利用 `unique()` 函数进行去重, 需要先使用 `sort()` 函数排序后再使用, 如:
+
+```c++
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+template <class T>
+void printElems(const T& t)
+{
+    if (t.empty())
+    {
+        cout << "Empty" << endl;
+        return;
+    }
+    for (int i = 0; i < t.size(); i++)
+    {
+        cout << t[i];
+        if (i < t.size() - 1)
+            cout << " ";
+    }
+    cout << endl;
+}
+
+int main()
+{
+    vector<int> nums{1, 2, 2, 2, 3, 3, 2, 2, 1};
+    unique(nums.begin(), nums.end());
+    printElems(nums);
+    // 输出 1 2 3 2 1 3 2 2 1, 其中 1 2 3 2 1 为结果
+
+    sort(nums.begin(), nums.end());
+    auto it = unique(nums.begin(), nums.end());
+    printElems(nums);
+    // 输出 1 2 3 2 2 2 2 3 3, 其中 1 2 3 为结果
+    
+    nums.resize(distance(nums.begin(), it));
+    printElems(nums);
+    // 输出 1 2 3
+    
+    return 0;
+}
+```
+
+#### **[`adjacent_find()`](http://www.cplusplus.com/reference/algorithm/adjacent_find/)**
+
+> * *equality*
+>
+>     `template <class ForwardIterator> ForwardIterator adjacent_find (ForwardIterator first, ForwardIterator last);`
+>
+> * *predicate*
+>
+>     `template <class ForwardIterator, class BinaryPredicate> ForwardIterator adjacent_find (ForwardIterator first, ForwardIterator last, BinaryPredicate pred);`
+>
+> **Searches the range `[first,last)` for the first occurrence of two consecutive elements that match, and returns an iterator to the first of these two elements, or last if no such pair is found.**
+>
+> Two elements match if they compare equal using `operator==` (or using *pred*, in version *(2)*).
+
+The behavior of this function template is equivalent to:
+
+```c++
+template <class ForwardIterator>
+ForwardIterator adjacent_find (ForwardIterator first, ForwardIterator last)
+{
+    if (first != last)
+    {
+        ForwardIterator next = first; ++next;
+        while (next != last) {
+            if (*first == *next)
+// or: if (pred(*first,*next)), for version (2)
+                return first;
+            ++first; ++next;
+        }
+    }
+    return last;
+}
+```
+
+
+
+#### **[`all_of()`](http://www.cplusplus.com/reference/algorithm/all_of/)**
+
+> `template <class InputIterator, class UnaryPredicate> bool all_of (InputIterator first, InputIterator last, UnaryPredicate pred);`
+>
+> **Returns `true` if pred returns `true` for all the elements in the range `[first,last)` or if the range is empty, and `false` otherwise.**
+
+判断 `[first, last)` 中所有元素是否满足某条件 *pred*, 如:
+
+```c++
+#include <iostream>
+#include <algorithm>
+#include <array>
+using namespace std;
+
+int main()
+{
+    array<int, 8> foo = {3, 5, 7, 11, 13, 17, 19, 23};
+    if (all_of(foo.begin(), foo.end(), [](int i){return i % 2;}))
+        cout << "All odds\n";	// 输出 All odds
+    return 0;
+}
+```
+
+
+
+#### **[`any_of()`](http://www.cplusplus.com/reference/algorithm/any_of/)** (详见链接)
+
+#### **[`binary_search()`](cplusplus.com/reference/algorithm/binary_search/)** (详见链接)
+
+#### **[`copy()`](http://www.cplusplus.com/reference/algorithm/copy/), [`copy_if`](http://www.cplusplus.com/reference/algorithm/copy_if/), [`copy_backward()`](http://www.cplusplus.com/reference/algorithm/copy_backward/), [`copy_n()`](http://www.cplusplus.com/reference/algorithm/copy_n/)** (详见链接)
+
+#### **[`count_if()`](http://www.cplusplus.com/reference/algorithm/count_if/)**
+
+> `template <class InputIterator, class UnaryPredicate> typename iterator_traits<InputIterator>::difference_type count_if (InputIterator first, InputIterator last, UnaryPredicate pred);`
+>
+> **Returns the number of elements in the range `[first,last)` for which *pred* is true.**
+
+The behavior of this function template is equivalent to:
+
+```c++
+template <class InputIterator, class UnaryPredicate>
+typename iterator_traits<InputIterator>::difference_type count_if (InputIterator first, InputIterator last, UnaryPredicate pred)
+{
+    typename iterator_traits<InputIterator>::difference_type ret = 0;
+    while (first != last) {
+        if (pred(*first)) ++ret;
+        ++first;
+    }
+    return ret;
+}
+```
+
+
+
+#### **[`fill()`](http://www.cplusplus.com/reference/algorithm/fill/)**
+
+> `template <class ForwardIterator, class T> void fill (ForwardIterator first, ForwardIterator last, const T& val);`
+>
+> **Assigns val to all the elements in the range `[first,last)`.**
+
+The behavior of this function template is equivalent to:
+
+```c++
+template <class ForwardIterator, class T>
+void fill (ForwardIterator first, ForwardIterator last, const T& val)
+{
+    while (first != last) {
+        *first = val;
+        ++first;
+    }
+}
+```
+
+
+
+#### **[`fill_n()`](http://www.cplusplus.com/reference/algorithm/fill_n/)** (详见链接)
+
+#### **[`find_if()`](http://www.cplusplus.com/reference/algorithm/find_if/)**
+
+> `template <class InputIterator, class UnaryPredicate> InputIterator find_if (InputIterator first, InputIterator last, UnaryPredicate pred);`
+>
+> **Returns an iterator to the first element in the range `[first,last)` for which *pred* returns `true`. If no such element is found, the function returns *last*.**
+
+The behavior of this function template is equivalent to:
+
+```c++
+template<class InputIterator, class UnaryPredicate>
+InputIterator find_if (InputIterator first, InputIterator last, UnaryPredicate pred)
+{
+    while (first != last) {
+        if (pred(*first)) return first;
+        ++first;
+    }
+    return last;
 }
 ```
 
