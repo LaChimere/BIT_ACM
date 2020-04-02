@@ -1281,5 +1281,182 @@ int main()
 }
 ```
 
+#### **[`min()`](http://www.cplusplus.com/reference/algorithm/min/)** 与 **[`max()`](http://www.cplusplus.com/reference/algorithm/max/)** (详见链接)
 
+#### **[`min_element()`](http://www.cplusplus.com/reference/algorithm/min_element/)** 与 **[`max_element()`](http://www.cplusplus.com/reference/algorithm/max_element/)**
+
+> * *default*
+>
+>     `template <class ForwardIterator> ForwardIterator min_element (ForwardIterator first, ForwardIterator last);`
+>
+>     `template <class ForwardIterator> ForwardIterator max_element (ForwardIterator first, ForwardIterator last);`
+>
+> * *custom*
+>
+>     `template <class ForwardIterator, class Compare> ForwardIterator min_element (ForwardIterator first, ForwardIterator last, Compare comp);`
+>
+>     `template <class ForwardIterator, class Compare> ForwardIterator max_element (ForwardIterator first, ForwardIterator last, Compare comp);`
+>
+> **Returns an iterator pointing to the element with the smallest / largest value in the range `[first,last)`.**
+>
+> The comparisons are performed using either `operator<` for the first version, or comp for the second; An element is the smallest / largest if no other element does not compare greater / less than it. If more than one element fulfills this condition, the iterator returned points to the first of such elements.
+
+For instance, the behavior of this function template is equivalent to:
+
+```c++
+template <class ForwardIterator>
+ForwardIterator min_element (ForwardIterator first, ForwardIterator last)
+{
+    if (first==last) return last;
+    ForwardIterator smallest = first;
+
+    while (++first != last)
+        if (*first < *smallest)
+// or: if (comp(*first, *smallest)) for version (2)
+            smallest = first;
+    return smallest;
+}
+```
+
+
+
+#### **[`nth_element()`](http://www.cplusplus.com/reference/algorithm/nth_element/)**
+
+> * *default*
+>
+>     `template <class RandomAccessIterator> void nth_element (RandomAccessIterator first, RandomAccessIterator nth, RandomAccessIterator last);`
+>
+> * *custom*
+>
+>     `template <class RandomAccessIterator, class Compare> void nth_element (RandomAccessIterator first, RandomAccessIterator nth, RandomAccessIterator last, Compare comp);`
+>
+> **Rearranges the elements in the range `[first,last)`, in such a way that the element at the *nth* position is the element that would be in that position in a sorted sequence.**
+
+类似于快排的 `partition` 函数, 在 `[first, last)` 内中, 将排序后应在 *nth* 所指的位置的元素放在该处, 其左边元素均不大于它, 右边元素均不小于它, 如: 
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+template <class T>
+void printElems(const T& t)
+{
+    if (t.empty())
+    {
+        cout << "Empty" << endl;
+        return;
+    }
+    for (int i = 0; i < t.size(); i++)
+    {
+        cout << t[i];
+        if (i < t.size() - 1)
+            cout << " ";
+    }
+    cout << endl;
+}
+
+int main()
+{
+    vector<int> nums{1, 2, 3, 4, 5, 6, 7, 8};
+    random_shuffle(nums.begin(), nums.end());
+    printElems(nums);	// 如, 输出 5 2 7 3 1 6 8 4
+    nth_element(nums.begin(), nums.begin() + 3, nums.end());
+    printElems(nums);
+    // 如, 输出 2 1 3 4 5 6 8 7, 其中 4 为指定的 nth
+
+    return 0;
+}
+```
+
+
+
+#### **[`swap()`](http://www.cplusplus.com/reference/algorithm/swap/)** (详见源码)
+
+#### **[`reverse()`](http://www.cplusplus.com/reference/algorithm/reverse/)**
+
+> `template <class BidirectionalIterator> void reverse (BidirectionalIterator first, BidirectionalIterator last);`
+>
+> **Reverses the order of the elements in the range `[first,last)`.**
+
+#### **[`reverse_copy()`](http://www.cplusplus.com/reference/algorithm/reverse_copy/)**
+
+> `template <class BidirectionalIterator, class OutputIterator> OutputIterator reverse_copy (BidirectionalIterator first, BidirectionalIterator last, OutputIterator result);`
+>
+> **Copies the elements in the range `[first,last)` to the range beginning at result, but in reverse order.**
+
+The behavior of this function template is equivalent to:
+
+```c++
+template <class BidirectionalIterator, class OutputIterator>
+OutputIterator reverse_copy (BidirectionalIterator first, BidirectionalIterator last, OutputIterator result)
+{
+    while (first != last) {
+        --last;
+        *result = *last;
+        ++result;
+    }
+    return result;
+}
+```
+
+```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8};
+    vector<int> nums;
+    nums.resize(8);
+    reverse_copy(arr, arr + 8, nums.begin());
+    for (const int& num : nums)
+        cout << num << " ";		// 输出 8 7 6 5 4 3 2 1
+    
+    return 0;
+}
+```
+
+
+
+#### **[`rotate()`](http://www.cplusplus.com/reference/algorithm/rotate/)**
+
+> `template <class ForwardIterator> ForwardIterator rotate (ForwardIterator first, ForwardIterator middle, ForwardIterator last);`
+>
+> **Rotates the order of the elements in the range `[first,last)`, in such a way that the element pointed by middle becomes the new first element.**
+
+The behavior of this function template (C++ 98) is equivalent to:
+
+```c++
+template <class ForwardIterator>
+void rotate (ForwardIterator first, ForwardIterator middle, ForwardIterator last)
+{
+    ForwardIterator next = middle;
+    while (first!=next)
+    {
+        swap (*first++,*next++);
+        if (next == last) next = middle;
+        else if (first == middle) middle = next;
+    }
+}
+```
+
+```c++
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int main ()
+{
+    vector<int> nums{1, 2, 3, 4, 5, 6, 7, 8};
+    rotate(nums.begin(), nums.begin() + 3, nums.end());
+
+    for (auto it = nums.begin(); it != nums.end(); ++it)
+        cout << *it << " ";		// 输出 4 5 6 7 8 1 2 3
+
+    return 0;
+}
+```
 
