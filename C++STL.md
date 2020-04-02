@@ -1198,3 +1198,88 @@ int main()
 > Note that any content in str before the call is replaced by the newly extracted sequence.
 >
 > Each extracted character is appended to the [string](http://www.cplusplus.com/string) as if its member [push_back](http://www.cplusplus.com/string::push_back) was called.
+
+### 2.2 \<[algorithm](http://www.cplusplus.com/reference/algorithm/)\>
+
+#### **[`sort()`](http://www.cplusplus.com/reference/algorithm/sort/)**
+
+> * *default*
+>
+>     `template <class RandomAccessIterator> void sort (RandomAccessIterator first, RandomAccessIterator last);`
+>
+> * *custom*
+>
+>     `template <class RandomAccessIterator, class Compare> void sort (RandomAccessIterator first, RandomAccessIterator last, Compare comp);`
+>
+> **Sorts the elements in the range `[first,last)` into ascending order.**
+>
+> The elements are compared using `operator<` for the first version, and comp for the second.
+>
+> Equivalent elements are not guaranteed to keep their original relative order (see [stable_sort](http://www.cplusplus.com/stable_sort))
+
+`sort()` 函数可以通过重载 `operator<` 来对结构体或类对象进行排序, 如:
+
+```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+template <class T>
+void printElems(const T& t)
+{
+    if (t.empty())
+    {
+        cout << "Empty" << endl;
+        return;
+    }
+    for (int i = 0; i < t.size(); i++)
+    {
+        cout << t[i];
+        if (i < t.size() - 1)
+            cout << " ";
+    }
+    cout << endl;
+}
+
+class point
+{
+private:
+    double x, y;
+public:
+    explicit point(double x = 0, double y = 0) : x(x), y(y) {}
+    [[nodiscard]] double getX() const { return x; }
+    [[nodiscard]] double getY() const { return y; }
+    void setX(double x) { this->x = x; }
+    void setY(double y) { this->y = y; }
+};
+
+inline bool operator < (const point& p1, const point& p2)
+{
+    double x1 = p1.getX(), x2 = p2.getX();
+    double y1 = p1.getY(), y2 = p2.getY();
+    return x1 != x2 ? x1 < x2 : y1 < y2;
+}
+
+inline ostream & operator << (ostream& os, const point& p)
+{
+    os << "(" << p.getX() << ", " << p.getY() << ")";
+    return os;
+}
+
+int main()
+{
+    vector<point> points;
+    points.emplace_back(1.2, 2.6);
+    points.emplace_back(3.7, 2.1);
+    points.emplace_back(1.2, 1.8);
+    points.emplace_back(0.4, 5.2);
+    sort(points.begin(), points.end());
+    printElems(points);		// 输出 (0.4, 5.2) (1.2, 1.8) (1.2, 2.6) (3.7, 2.1)
+
+    return 0;
+}
+```
+
+
+
