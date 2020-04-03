@@ -384,6 +384,16 @@ int main()
 >
 > **Removes all elements from the vector (which are destroyed), leaving the container with a `size` of `0`.**
 
+### 1.2 \<[deque](http://www.cplusplus.com/reference/deque/deque/)\>
+
+#### 1.2.1 模板
+
+`template < class T, class Alloc = allocator<T> > class deque;`
+
+#### 1.2.2 构造函数
+
+
+
 ## 2. Other
 
 ### 2.1 \<[string](http://www.cplusplus.com/reference/string/string/)\>
