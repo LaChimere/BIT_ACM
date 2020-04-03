@@ -794,6 +794,129 @@ The standard container classes `vector` and `deque` fulfill the requirements of 
 >
 > This member function effectively calls member [`front`](http://www.cplusplus.com/vector::front) of the underlying container object.
 
+### 1.5 \<[set](http://www.cplusplus.com/reference/set/)\>
+
+#### 1.5.1 [set](http://www.cplusplus.com/reference/set/set/)
+
+**Sets are containers that store unique elements following a specific order.**
+
+In a `set`, the value of an element also identifies it (the value is itself the *key*, of type `T`), and each value must be unique. The value of the elements in a `set` cannot be modified once in the container (the elements are always const), but they can be inserted or removed from the container.
+
+Internally, the elements in a `set` are always sorted following a specific *strict weak ordering* criterion indicated by its internal [comparison object](http://www.cplusplus.com/set::key_comp) (of type `Compare`).
+
+`set` containers are generally slower than [`unordered_set`](http://www.cplusplus.com/unordered_set) containers to access individual elements by their *key*, but they allow the direct iteration on subsets based on their order.
+
+Sets are typically implemented as *binary search trees*.
+
+##### 1.5.1.1 模板
+
+```c++
+template < class T,                        // set::key_type/value_type
+           class Compare = less<T>,        // set::key_compare/value_compare
+           class Alloc = allocator<T>      // set::allocator_type
+           > class set;
+```
+
+##### 1.5.1.2 [构造函数](http://www.cplusplus.com/reference/set/set/set/) (详见链接)
+
+##### 1.5.1.3 [成员函数](http://www.cplusplus.com/reference/set/set/set/) (部分)
+
+###### **[`count()`](http://www.cplusplus.com/reference/set/set/count/)**
+
+> `size_type count (const value_type& val) const;`
+>
+> **Searches the container for elements equivalent to *val* and returns the number of matches.**
+>
+> Because all elements in a set container are unique, the function can only return *1* (if the element is found) or zero (otherwise).
+>
+> Two elements of a set are considered equivalent if the container's [comparison object](http://www.cplusplus.com/set::key_comp) returns `false` reflexively (i.e., no matter the order in which the elements are passed as arguments).
+
+###### **[`equal_range()`](http://www.cplusplus.com/reference/set/set/equal_range/)**
+
+> `pair<const_iterator,const_iterator> equal_range (const value_type& val) const;`
+>
+> `pair<iterator,iterator> equal_range (const value_type& val);`
+>
+> **Returns the bounds of a range that includes all the elements in the container that are equivalent to *val*.**
+>
+> **Because all elements in a set container are unique, the range returned will contain a single element at most.**
+>
+> If no matches are found, the range returned has a length of zero, with both iterators pointing to the first element that is considered to go after *val* according to the container's [internal comparison object](http://www.cplusplus.com/set::key_comp) ([key_comp](http://www.cplusplus.com/set::key_comp)).
+>
+> Two elements of a set are considered equivalent if the container's [comparison object](http://www.cplusplus.com/set::key_comp) returns `false` reflexively (i.e., no matter the order in which the elements are passed as arguments).
+
+###### **[`erase()`](http://www.cplusplus.com/reference/set/set/erase/)**
+
+> (1) `iterator erase (const_iterator position);`
+>
+> (2) `size_type erase (const value_type& val);`
+>
+> (3) `iterator erase (const_iterator first, const_iterator last);`
+>
+> **Removes from the set container either a single element or a range of elements (`[first,last)`).**
+>
+> **Return value:**
+>
+> For the value-based version (2), the function returns the number of elements erased.
+
+###### **[`find()`](http://www.cplusplus.com/reference/set/set/find/)**
+
+> `const_iterator find (const value_type& val) const;`
+>
+> `iterator find (const value_type& val);`
+>
+> **Searches the container for an element equivalent to *val* and returns an iterator to it if found, otherwise it returns an iterator to [set::end](http://www.cplusplus.com/set::end).**
+
+###### **[`insert()`](http://www.cplusplus.com/reference/set/set/insert/)**
+
+> (1) *single element*
+>
+> `pair<iterator,bool> insert (const value_type& val);`
+>
+> `pair<iterator,bool> insert (value_type&& val);`
+>
+> (2) *with hint*
+>
+> `iterator insert (const_iterator position, const value_type& val);`
+>
+> `iterator insert (const_iterator position, value_type&& val);`
+>
+> (3) *range*
+>
+> `template <class InputIterator> void insert (InputIterator first, InputIterator last);`
+>
+> (4) *initializer list*
+>
+> `void insert (initializer_list<value_type> il);`
+>
+> **Extends the container by inserting new elements, effectively increasing the container `size` by the number of elements inserted.**
+>
+> Because elements in a set are unique, the insertion operation checks whether each inserted element is equivalent to an element already in the container, and if so, the element is not inserted, returning an iterator to this existing element (if the function returns a value).
+>
+> **Return value:**
+>
+> The single element versions (1) return a [`pair`](http://www.cplusplus.com/pair), with its member `pair::first` set to an iterator pointing to either the newly inserted element or to the equivalent element already in the set. The `pair::second` element in the `pair` is set to `true` if a new element was inserted or `false` if an equivalent element already existed.
+>
+> The versions with a hint (2) return an iterator pointing to either the newly inserted element or to the element that already had its same value in the set.
+
+###### **[`lower_bound()`](http://www.cplusplus.com/reference/set/set/lower_bound/)**
+
+> `iterator lower_bound (const value_type& val);`
+>
+> `const_iterator lower_bound (const value_type& val) const;`
+>
+> **Returns an iterator pointing to the first element in the container which is not considered to go before *val* (i.e., either it is equivalent or goes after).**
+
+###### **[`upper_bound()`](http://www.cplusplus.com/reference/set/set/upper_bound/)**
+
+> `iterator upper_bound (const value_type& val);`
+>
+> `const_iterator upper_bound (const value_type& val) const;`
+>
+> **Returns an iterator pointing to the first element in the container which is considered to go after *val*.**
+
+#### 1.5.2 [multiset](http://www.cplusplus.com/reference/set/multiset/)
+
 ## 2. Other
 
 ### 2.1 \<[string](http://www.cplusplus.com/reference/string/string/)\>
@@ -950,7 +1073,7 @@ The standard container classes `vector` and `deque` fulfill the requirements of 
 >
 > The number of characters copied to the array pointed by *s*. This may be equal to *len* or to `length() - pos` (if the string value is shorter than `pos + len`).
 
-将string对象pos起始的len个字符拷贝到字符型数组s中, 并返回拷贝的字符数. 本函数不会在s中自动添加`'\0'`, 如:
+将string对象 *pos* 起始的 *len* 个字符拷贝到字符型数组s中, 并返回拷贝的字符数. 本函数不会在s中自动添加`'\0'`, 如:
 
 ```c++
 #include <iostream>
