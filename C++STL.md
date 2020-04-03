@@ -917,6 +917,79 @@ template < class T,                        // set::key_type/value_type
 
 #### 1.5.2 [multiset](http://www.cplusplus.com/reference/set/multiset/)
 
+**Multisets are containers that store elements following a specific order, and where multiple elements can have equivalent values.**
+
+In a `multiset`, the value of an element also identifies it (the value is itself the *key*, of type `T`). The value of the elements in a `multiset` cannot be modified once in the container (the elements are always const), but they can be inserted or removed from the container.
+
+##### 1.5.2.1 模板
+
+```c++
+template < class T,                        // multiset::key_type/value_type
+           class Compare = less<T>,        // multiset::key_compare/value_compare
+           class Alloc = allocator<T> >    // multiset::allocator_type
+           > class multiset;
+```
+
+##### 1.5.2.2 [构造函数](http://www.cplusplus.com/reference/set/multiset/multiset/) (详见链接)
+
+##### 1.5.2.3 [成员函数](http://www.cplusplus.com/reference/set/multiset/) (部分)
+
+###### **[`count()`](http://www.cplusplus.com/reference/set/multiset/count/)**
+
+> `size_type count (const value_type& val) const;`
+>
+> **Searches the container for elements equivalent to *val* and returns the number of matches.**
+
+###### **[`equal_range()`](http://www.cplusplus.com/reference/set/multiset/equal_range/)**
+
+>`pair<const_iterator,const_iterator> equal_range (const value_type& val) const;`
+>
+>`pair<iterator,iterator> equal_range (const value_type& val);`
+>
+>**Returns the bounds of a range that includes all the elements in the container that are equivalent to *val*.**
+>
+>**Return value:**
+>
+>The function returns a [`pair`](http://www.cplusplus.com/pair), whose member `pair::first` is the lower bound of the range (the same as [`lower_bound`](http://www.cplusplus.com/multiset::lower_bound)), and `pair::second` is the upper bound (the same as [`upper_bound`](http://www.cplusplus.com/multiset::upper_bound)).
+
+###### **[`erase()`](http://www.cplusplus.com/reference/set/multiset/erase/)**
+
+> (1) `iterator  erase (const_iterator position);`
+>
+> (2) `size_type erase (const value_type& val);`
+>
+> (3) `iterator  erase (const_iterator first, const_iterator last);`
+>
+> **Removes elements from the multiset container.**
+>
+> This effectively reduces the container size by the number of elements removed, which are destroyed.
+>
+> **Return value:**
+>
+> For the value-based version (2), the function returns the number of elements erased.
+
+###### **[`find()`](http://www.cplusplus.com/reference/set/multiset/find/)**
+
+> `const_iterator find (const value_type& val) const;`
+>
+> `iterator find (const value_type& val);`
+>
+> **Searches the container for an element equivalent to *val* and returns an iterator to it if found, otherwise it returns an iterator to [`multiset::end`](http://www.cplusplus.com/multiset::end).**
+>
+> Notice that this function returns an iterator to a single element (of the possibly multiple equivalent elements). To obtain the entire range of equivalent elements, see [`multiset::equal_range`](http://www.cplusplus.com/multiset::equal_range).
+
+###### **[`insert()`](http://www.cplusplus.com/reference/set/multiset/insert/)** (详见链接)
+
+###### **[`lower_bound()`](http://www.cplusplus.com/reference/set/multiset/lower_bound/)** 与 **[`upper_bound()`](http://www.cplusplus.com/reference/set/multiset/upper_bound/)** (详见链接)
+
+
+
+### 1.6 \<[unordered_set](http://www.cplusplus.com/reference/unordered_set/)\> (C++ 11) (详见链接)
+
+### 1.7 \<[map](http://www.cplusplus.com/reference/map/)\>
+
+
+
 ## 2. Other
 
 ### 2.1 \<[string](http://www.cplusplus.com/reference/string/string/)\>
