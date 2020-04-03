@@ -392,7 +392,407 @@ int main()
 
 #### 1.2.2 构造函数
 
+* *default*
 
+    `explicit deque (const allocator_type& alloc = allocator_type());`
+
+* *fill*
+
+    `explicit deque (size_type n);`
+
+    `deque (size_type n, const value_type& val, const allocator_type& alloc = allocator_type());`
+
+* *range*
+
+    `template <class InputIterator> deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());`
+
+* *copy*
+
+    `deque (const deque& x);`
+
+    `deque (const deque& x, const allocator_type& alloc);`
+
+* *move*
+
+    `deque (deque&& x);`
+
+    `deque (deque&& x, const allocator_type& alloc);`
+
+* *initialize list*
+
+    `deque (initializer_list<value_type> il, const allocator_type& alloc = allocator_type());`
+
+#### 1.2.3 [成员函数](http://www.cplusplus.com/reference/deque/deque/) (部分)
+
+##### **[`back()`](http://www.cplusplus.com/reference/deque/deque/back/)**
+
+> `reference back();`
+>
+> `const_reference back() const;`
+>
+> **Returns a reference to the last element in the container.**
+>
+> Calling this function on an [empty](http://www.cplusplus.com/deque::empty) container causes undefined behavior.
+
+##### **[`front()`](http://www.cplusplus.com/reference/deque/deque/front/)**
+
+> `reference front();`
+>
+> `const_reference front() const;`
+>
+> **Returns a reference to the first element in the deque container.**
+>
+> Calling this function on an [empty](http://www.cplusplus.com/deque::empty) container causes undefined behavior.
+
+##### **[`emplace()`](cplusplus.com/reference/deque/deque/emplace/)**
+
+> `template <class... Args> iterator emplace (const_iterator position, Args&&... args);`
+>
+> **The container is extended by inserting a new element at *position*. This new element is constructed in place using *args* as the arguments for its construction.**
+>
+> This effectively increases the container `size` by one.
+
+##### **[`emplace_back()`](http://www.cplusplus.com/reference/deque/deque/emplace_back/)** 与 **[`emplace_front()`](http://www.cplusplus.com/reference/deque/deque/emplace_front/)** (详见链接)
+
+##### **[`erase()`](http://www.cplusplus.com/reference/deque/deque/erase/)**
+
+> `iterator erase (const_iterator position);`
+>
+> `iterator erase (const_iterator first, const_iterator last);`
+>
+> **Removes from the deque] container either a single element (*position*) or a range of elements (`[first,last)`).**
+
+##### **[`insert()`](http://www.cplusplus.com/reference/deque/deque/insert/)** 详见链接
+
+##### **[`pop_back()`](http://www.cplusplus.com/reference/deque/deque/pop_back/)**
+
+> `void pop_back();`
+>
+> **Removes the last element in the deque container, effectively reducing the container `size` by one.**
+>
+> This destroys the removed element.
+
+##### **[`pop_front()`](http://www.cplusplus.com/reference/deque/deque/pop_front/)**
+
+> `void pop_front();`
+>
+> **Removes the first element in the deque container, effectively reducing its `size` by one.**
+>
+> This destroys the removed element.
+
+##### **[`push_back()`](http://www.cplusplus.com/reference/deque/deque/push_back/)** 与 **[`push_front()`](http://www.cplusplus.com/reference/deque/deque/push_front/)** 详见链接
+
+##### **[`deque::swap()`](http://www.cplusplus.com/reference/deque/deque/swap/)**
+
+> `void swap (deque& x);`
+>
+> **Exchanges the content of the container by the content of *x*, which is another deque object containing elements of the same type. Sizes may differ.**
+>
+> After the call to this member function, the elements in this container are those which were in *x* before the call, and the elements of *x* are those which were in this. All iterators, references and pointers remain valid for the swapped objects.
+>
+> Notice that a non-member function exists with the same name, [swap](http://www.cplusplus.com/deque:swap), overloading that algorithm with an optimization that behaves like this member function.
+
+### 1.3 \<[stack](http://www.cplusplus.com/reference/stack/stack/)\>
+
+#### 1.3.1 模板
+
+`template <class T, class Container = deque<T> > class stack;`
+
+#### 1.3.2 构造函数
+
+* *initialize*
+
+    `explicit stack (const container_type& ctnr);`
+
+* *move-initialize*
+
+    `explicit stack (container_type&& ctnr = container_type());`
+
+* *allocator*
+
+    `template <class Alloc> explicit stack (const Alloc& alloc);`
+
+* *init + allocator*
+
+    `template <class Alloc> stack (const container_type& ctnr, const Alloc& alloc);`
+
+* *move-init + allocator*
+
+    `template <class Alloc> stack (container_type&& ctnr, const Alloc& alloc);`
+
+* *copy + allocator*
+
+    `template <class Alloc> stack (const stack& x, const Alloc& alloc);`
+
+* *move + allocator*
+
+    `template <class Alloc> stack (stack&& x, const Alloc& alloc);`
+
+当使用 `vector` 构造 `stack` 时, 需要写出来, 如:
+
+```c++
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <stack>
+using namespace std;
+
+int main()
+{
+    deque<int> dq({1, 2, 3, 4, 5});
+    vector<int> v({1, 2, 3, 4, 5});
+    
+    stack<int> st1(dq);
+    stack<int, vector<int>> st2(v);
+    
+    while (!st1.empty())
+    {
+        cout << st1.top() << " ";	// 输出 5 4 3 2 1
+        st1.pop();
+    }
+    cout << endl;
+    while (!st2.empty())
+    {
+        cout << st2.top() << " ";	// 输出 5 4 3 2 1
+        st2.pop();
+    }
+    
+    return 0;
+}
+```
+
+#### 1.3.3 [成员函数](http://www.cplusplus.com/reference/stack/stack/)
+
+##### **[`emplace()`](http://www.cplusplus.com/reference/stack/stack/emplace/)**
+
+> `template <class... Args> void emplace (Args&&... args);`
+>
+> **Adds a new element at the top of the stack, above its current *top element*. This new element is constructed in place passing *args* as the arguments for its constructor.**
+
+##### **[`empty()`](http://www.cplusplus.com/reference/stack/stack/empty/)**
+
+> `bool empty() const;`
+>
+> **Returns whether the `stack` is empty: i.e. whether its `size` is *zero*.**
+
+##### **[`pop()`](http://www.cplusplus.com/reference/stack/stack/pop/)**
+
+> `void pop();`
+>
+> **Removes the element on top of the stack, effectively reducing its `size` by one.**
+>
+> The element removed is the latest element inserted into the stack, whose value can be retrieved by calling member [`stack::top`](http://www.cplusplus.com/stack::top).
+>
+> This calls the removed element's destructor.
+>
+> This member function effectively calls the member function [`pop_back`](http://www.cplusplus.com/deque::pop_back) of the *underlying container* object.
+
+##### **[`push()`](http://www.cplusplus.com/reference/stack/stack/push/)**
+
+> `void push (const value_type& val);`
+>
+> `void push (value_type&& val);`
+>
+> **Inserts a new element at the top of the stack, above its current *top element*. The content of this new element is initialized to a copy of *val*.**
+>
+> This member function effectively calls the member function [`push_back`](http://www.cplusplus.com/deque::push_back) of the *underlying container* object.
+
+##### **[`stack::swap()`](http://www.cplusplus.com/reference/stack/stack/swap/)**
+
+> `void swap (stack& x) noexcept(/*see below*/);`
+>
+> **Exchanges the contents of the container adaptor (`*this`) by those of *x*.**
+>
+> This member function calls the non-member function [swap](http://www.cplusplus.com/swap) (unqualified) to swap the *underlying containers*.
+>
+> The `noexcept` specifier matches the [swap](http://www.cplusplus.com/deque:swap) operation on the *underlying container*.
+
+##### **[`size()`](http://www.cplusplus.com/reference/stack/stack/size/)** (详见链接)
+
+##### **[`top()`](http://www.cplusplus.com/reference/stack/stack/top/)**
+
+> `reference& top();`
+>
+> `const_reference& top() const;`
+>
+> **Returns a reference to the *top element* in the stack.**
+>
+> Since stacks are last-in first-out containers, the top element is the last element inserted into the stack.
+>
+> This member function effectively calls member [`back`](http://www.cplusplus.com/deque::back) of the *underlying container* object.
+
+### 1.4 \<[queue](http://www.cplusplus.com/reference/queue/)\>
+
+#### 1.4.1 [queue](http://www.cplusplus.com/reference/queue/queue/)
+
+##### 1.4.1.1 模板
+
+`template <class T, class Container = deque<T> > class queue;`
+
+##### 1.4.1.2 构造函数
+
+* *initialize*
+
+    `explicit queue (const container_type& ctnr);`
+
+* *move-initialize*
+
+    `explicit queue (container_type&& ctnr = container_type());`
+
+* *allocator*
+
+    `template <class Alloc> explicit queue (const Alloc& alloc);`
+
+* *init + allocator*
+
+    `template <class Alloc> queue (const container_type& ctnr, const Alloc& alloc);`
+
+* *move-init + allocator*
+
+    `template <class Alloc> queue (container_type&& ctnr, const Alloc& alloc);`
+
+* *copy + allocator*
+
+    `template <class Alloc> queue (const queue& x, const Alloc& alloc);`
+
+* *move + allocator*
+
+    `template <class Alloc> queue (queue&& x, const Alloc& alloc);`
+
+类似地, 在使用非 `deque` 作为底层容器时需要指明, 如:
+
+```c++
+#include <iostream>
+#include <deque>
+#include <queue>
+#include <list>
+using namespace std;
+
+int main()
+{
+    deque<int> dq({1, 2, 3, 4, 5});
+    list<int> l({1, 2, 3, 4, 5});
+    
+    queue<int> q1(dq);
+    queue<int, list<int>> q2(l);
+    
+    while (!q1.empty())
+    {
+        cout << q1.front() << " ";	// 输出 1 2 3 4 5
+        q1.pop();
+    }
+    cout << endl;
+    while (!q2.empty())
+    {
+        cout << q2.front() << " ";	// 输出 1 2 3 4 5
+        q2.pop();
+    }
+    
+    return 0;
+}
+```
+
+##### 1.4.1.3 [成员函数](http://www.cplusplus.com/reference/queue/queue/queue/) (详见链接)
+
+###### **[`back()`](http://www.cplusplus.com/reference/queue/queue/back/)**
+
+###### **[`emplace()`](http://www.cplusplus.com/reference/queue/queue/emplace/)**
+
+###### **[`empty()`](http://www.cplusplus.com/reference/queue/queue/empty/)**
+
+###### **[`front()`](http://www.cplusplus.com/reference/queue/queue/front/)**
+
+###### **[`pop()`](http://www.cplusplus.com/reference/queue/queue/pop/)**
+
+###### **[`push()`](http://www.cplusplus.com/reference/queue/queue/push/)**
+
+###### **[`size()`](http://www.cplusplus.com/reference/queue/queue/size/)**
+
+###### **[`queue::swap()`](http://www.cplusplus.com/reference/queue/queue/swap/)**
+
+
+
+#### 1.4.2 [priority_queue](http://www.cplusplus.com/reference/queue/priority_queue/)
+
+Priority queues are a type of container adaptors, specifically designed such that its first element is always the greatest of the elements it contains, according to some *strict weak ordering* criterion.
+
+Priority queues are implemented as *container adaptors*, which are classes that use an encapsulated object of a specific container class as its *underlying container*, providing a specific set of member functions to access its elements.
+
+The standard container classes `vector` and `deque` fulfill the requirements of operations of priority queues. **By default, if no container class is specified for a particular `priority_queue` class instantiation, the standard container `vector` is used.**
+
+##### 1.4.2.1 模板
+
+`template <class T, class Container = vector<T>, class Compare = less<typename Container::value_type> > class priority_queue;`
+
+##### 1.4.2.2 构造函数
+
+* *initialize*
+
+    `priority_queue (const Compare& comp, const Container& ctnr);`
+
+* *range*
+
+    `template <class InputIterator> priority_queue (InputIterator first, InputIterator last, const Compare& comp, const Container& ctnr);`
+
+* *move-initialize*
+
+    `explicit priority_queue (const Compare& comp = Compare(), Container&& ctnr = Container());`
+
+* *move-range*
+
+    `template <class InputIterator> priority_queue (InputIterator first, InputIterator last, const Compare& comp, Container&& ctnr = Container());`
+
+* *allocator versions*
+
+    `template <class Alloc> explicit priority_queue (const Alloc& alloc);`
+
+    `template <class Alloc> priority_queue (const Compare& comp, const Alloc& alloc);`
+
+    `template <class Alloc> priority_queue (const Compare& comp, const Container& ctnr, const Alloc& alloc);`
+
+    `template <class Alloc> priority_queue (const Compare& comp, Container&& ctnr, const Alloc& alloc);`
+
+    `template <class Alloc> priority_queue (const priority_queue& x, const Alloc& alloc);`
+
+    `template <class Alloc> priority_queue (priority_queue&& x, const Alloc& alloc);`
+
+##### 1.4.2.3 成员函数
+
+###### **[`emplace()`](cplusplus.com/reference/queue/priority_queue/emplace/)** (详见链接)
+
+###### **[`empty()`](cplusplus.com/reference/queue/priority_queue/empty/)** (详见链接)
+
+
+
+###### **[`pop()`](http://www.cplusplus.com/reference/queue/priority_queue/pop/)**
+
+> `void pop();`
+>
+> **Removes the element on top of the `priority_queue`, effectively reducing its `size` by one. The element removed is the one with the highest value.**
+>
+> The value of this element can be retrieved before being popped by calling member [`priority_queue::top`](http://www.cplusplus.com/priority_queue::top).
+>
+> This member function effectively calls the [`pop_heap`](http://www.cplusplus.com/pop_heap) algorithm to keep the *heap property* of `priority_queue` and then calls the member function [`pop_back`](http://www.cplusplus.com/vector::pop_back) of the underlying container object to remove the element.
+>
+> This calls the removed element's destructor.
+
+###### **[`push()`](http://www.cplusplus.com/reference/queue/priority_queue/push/)** (详见链接)
+
+###### **[`size()`](http://www.cplusplus.com/reference/queue/priority_queue/size/)** (详见链接)
+
+###### **[`priority_queue::swap`](http://www.cplusplus.com/reference/queue/priority_queue/swap/)** (详见链接)
+
+
+
+###### **[`top()`](http://www.cplusplus.com/reference/queue/priority_queue/top/)**
+
+> `const_reference top() const;`
+>
+> **Returns a constant reference to the *top element* in the `priority_queue`.**
+>
+> The top element is the element that compares higher in the `priority_queue`, and the next that is removed from the container when `priority_queue::pop` is called.
+>
+> This member function effectively calls member [`front`](http://www.cplusplus.com/vector::front) of the underlying container object.
 
 ## 2. Other
 
