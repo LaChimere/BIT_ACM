@@ -988,6 +988,92 @@ template < class T,                        // multiset::key_type/value_type
 
 ### 1.7 \<[map](http://www.cplusplus.com/reference/map/)\>
 
+#### 1.7.1 map
+
+**Maps are associative containers that store elements formed by a combination of a *key value* and a *mapped value*, following a specific order.**
+
+In a `map`, the *key values* are generally used to sort and uniquely identify the elements, while the *mapped values* store the content associated to this *key*. The types of *key* and *mapped value* may differ, and are grouped together in member type `value_type`, which is a [pair](http://www.cplusplus.com/pair) type combining both: `typedef pair<const Key, T> value_type;`
+
+##### 1.7.1.1 模板
+
+```c++
+template < class Key,                                     // map::key_type
+           class T,                                       // map::mapped_type
+           class Compare = less<Key>,                     // map::key_compare
+           class Alloc = allocator<pair<const Key,T> >    // map::allocator_type
+           > class map;
+```
+
+##### 1.7.1.2 构造函数
+
+* *empty*
+
+    `explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());`
+
+    `explicit map (const allocator_type& alloc);`
+
+* *range*
+
+    `template <class InputIterator> map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& = allocator_type());`
+
+* *copy*
+
+    `map (const map& x);`
+
+    `map (const map& x, const allocator_type& alloc);`
+
+* *move*
+
+    `map (map&& x);`
+
+    `map (map&& x, const allocator_type& alloc);`
+
+* *initializer list*
+
+    `map (initializer_list<value_type> il, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());`
+
+##### 1.7.1.3 [成员函数](http://www.cplusplus.com/reference/map/map/) (部分)
+
+###### **[`at()`](http://www.cplusplus.com/reference/map/map/at/)**
+
+> `mapped_type& at (const key_type& k);`
+>
+> `const mapped_type& at (const key_type& k) const;`
+>
+> **Returns a reference to the mapped value of the element identified with key *k*.**
+>
+> If *k* does not match the key of any element in the container, the function throws an [out_of_range](http://www.cplusplus.com/out_of_range) exception.
+>
+> **Return value:**
+>
+> A reference to the mapped value of the element with a key value equivalent to *k*.
+>
+> If the map object is const-qualified, the function returns a reference to `const mapped_type`. Otherwise, it returns a reference to `mapped_type`.
+
+###### **[`count()`](http://www.cplusplus.com/reference/map/map/count/)**
+
+> `size_type count (const key_type& k) const;`
+>
+> **Searches the container for elements with a key equivalent to *k* and returns the number of matches.**
+>
+> Because all elements in a map container are unique, the function can only return *1* (if the element is found) or zero (otherwise).
+
+###### **[`erase()`](http://www.cplusplus.com/reference/map/map/erase/)**
+
+> (1) `iterator  erase (const_iterator position);`
+>
+> (2) `size_type erase (const key_type& k);`
+>
+> (3) `iterator  erase (const_iterator first, const_iterator last);`
+>
+> **Removes from the map container either a single element or a range of elements (`[first,last)`).**
+>
+> This effectively reduces the container `size` by the number of elements removed, which are destroyed.
+
+
+
+#### 1.7.2 multimap
+
 
 
 ## 2. Other
