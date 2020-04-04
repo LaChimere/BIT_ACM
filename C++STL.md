@@ -1070,9 +1070,125 @@ template < class Key,                                     // map::key_type
 >
 > This effectively reduces the container `size` by the number of elements removed, which are destroyed.
 
+###### **[`find()`](http://www.cplusplus.com/reference/map/map/find/)**
 
+> `iterator find (const key_type& k);`
+>
+> `const_iterator find (const key_type& k) const;`
+>
+> **Searches the container for an element with a *key* equivalent to *k* and returns an iterator to it if found, otherwise it returns an iterator to [`map::end`](http://www.cplusplus.com/map::end).**
+
+###### **[`insert()`](http://www.cplusplus.com/reference/map/map/insert/)**
+
+> * *single element* (1)
+>
+>     `pair<iterator,bool> insert (const value_type& val);`
+>
+>     `template <class P> pair<iterator,bool> insert (P&& val);`
+>
+> * *with hint* (2)
+>
+>     `iterator insert (const_iterator position, const value_type& val);`
+>
+>     `template <class P> iterator insert (const_iterator position, P&& val);`
+>
+> * *range* (3)
+>
+>     `template <class InputIterator> void insert (InputIterator first, InputIterator last);`
+>
+> * *initializer list* (4)
+>
+>     `void insert (initializer_list<value_type> il);`
+>
+> **Extends the container by inserting new elements, effectively increasing the container `size` by the number of elements inserted.**
+>
+> Because element keys in a map are unique, the insertion operation checks whether each inserted element has a key equivalent to the one of an element already in the container, and if so, the element is not inserted, returning an iterator to this existing element (if the function returns a value).
+>
+> **Return value:**
+>
+> The single element versions (1) return a [`pair`](http://www.cplusplus.com/pair), with its member `pair::first` set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map. The `pair::second` element in the `pair` is set to `true` if a new element was inserted or `false` if an equivalent key already existed.
+>
+> The versions with a hint (2) return an iterator pointing to either the newly inserted element or to the element that already had an equivalent key in the map.
+
+###### **[`emplace()`](http://www.cplusplus.com/reference/map/map/emplace/)** (C++ 11)
+
+> `template <class... Args> pair<iterator,bool> emplace (Args&&... args);`
+>
+> **Inserts a new element in the map if its key is unique. This new element is constructed in place using *args* as the arguments for the construction of a `value_type` (which is an object of a [`pair`](http://www.cplusplus.com/pair) type).**
+>
+> The insertion only takes place if no other element in the container has a key equivalent to the one being emplaced (keys in a map container are unique).
+>
+> If inserted, this effectively increases the container size by one.
+
+利用 `emplace()` 函数可以简化插入, 如:
+
+```c++
+#include <iostream>
+#include <map>
+using namespace std;
+
+int main()
+{
+    map<string, int> map1, map2;
+    map1.insert({"hello", 0});
+    map2.emplace("hello", 0);
+    auto it1 = map1.begin(), it2 = map2.begin();
+    cout << it1->first << " " << it1->second << endl;
+    cout << it2->first << " " << it2->second << endl;
+    /*
+     * 输出如下:
+     * hello 0
+     * hello 0
+    **/
+    return 0;
+}
+```
+
+
+
+###### **[`lower_bound()`](http://www.cplusplus.com/reference/map/map/lower_bound/)** 与 **[`upper_bound()`](http://www.cplusplus.com/reference/map/map/upper_bound/)** (详见链接)
+
+
+
+###### **[`operator[]()`](http://www.cplusplus.com/reference/map/map/operator[]/)**
+
+> `mapped_type& operator[] (const key_type& k);`
+>
+> `mapped_type& operator[] (key_type&& k);`
+>
+> **If *k* matches the key of an element in the container, the function returns a reference to its mapped value.**
+>
+> **If *k* does not match the key of any element in the container, the function inserts a new element with that key and returns a reference to its mapped value. Notice that this always increases the container `size` by one, even if no mapped value is assigned to the element (the element is constructed using its default constructor).**
+>
+> A similar member function, [`map::at`](http://www.cplusplus.com/map::at), has the same behavior when an element with the key exists, but throws an exception when it does not.
 
 #### 1.7.2 multimap
+
+**Multimaps are associative containers that store elements formed by a combination of a *key value* and a *mapped value*, following a specific order, and where multiple elements can have equivalent keys.**
+
+In a `multimap`, the *key values* are generally used to sort and uniquely identify the elements, while the *mapped values* store the content associated to this *key*. The types of *key* and *mapped value* may differ, and are grouped together in member type `value_type`, which is a [pair](http://www.cplusplus.com/pair) type combining both: `typedef pair<const Key, T> value_type;`
+
+##### 1.7.2.1 模板
+
+```c++
+template < class Key,                                     // multimap::key_type
+           class T,                                       // multimap::mapped_type
+           class Compare = less<Key>,                     // multimap::key_compare
+           class Alloc = allocator<pair<const Key,T> >    // multimap::allocator_type
+           > class multimap;
+```
+
+##### 1.7.2.2 [构造函数](http://www.cplusplus.com/reference/map/multimap/multimap/) (详见链接)
+
+##### 1.7.2.3 [成员函数](http://www.cplusplus.com/reference/map/multimap/) (详见链接)
+
+### 1.8 \<[unordered_map](http://www.cplusplus.com/reference/unordered_map/)\> (C++ 11) (详见链接)
+
+### 1.9 \<[array](http://www.cplusplus.com/reference/array/)\> (C++ 11) (详见链接)
+
+### 1.10 \<[list](http://www.cplusplus.com/reference/list/)\> (详见链接)
+
+### 1.11 \<[forward_list](http://www.cplusplus.com/reference/forward_list/)\> (C++ 11) (详见链接)
 
 
 
